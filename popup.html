@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            border: none;
+            width: 400px;
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans';
+            color: #777;
+        }
+        .thyme {
+            border-radius: 3px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #375262;
+            padding: .5em 1em;
+            color: #fff;
+        }
+        .button-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .notes-container input,
+        .notes-container textarea {
+            height: 50px;
+            margin-bottom: 0;
+        }
+        .notes-container {
+            margin-bottom: 1em;
+            display: flex;
+        }
+        textarea {
+            margin-right: 1em;
+        }
+        .notes-container input {
+            width: 80px;
+            text-align: right;
+            font-size: 2em;
+            padding: .25em;
+        }
+        h1 {
+            font-weight: 100;
+            margin-top: 0;
+            margin-bottom: 0;
+            line-height: 1em;
+            text-transform: uppercase;
+        }
+        label, select {
+            display: block;
+        }
+        label {
+            font-size: .75em;
+            margin-bottom: .5em;
+            color: #777;
+        }
+        .form-input {
+            padding: .75em;
+            color: #777;
+            display: block;
+            width: 100%;
+            margin-bottom: 1em;
+            border-radius: 3px;
+        }
+        .main-container {
+            padding: 1em;
+        }
+        .btn {
+            display: inline-block;
+            border-radius: 3px;
+            outline: none;
+            box-shadow: none;
+            border: none;
+            padding: .75em;
+            text-decoration: none;
+            cursor: pointer;
+            background-color: #ccc;
+            white-space: nowrap;
+            font-size: 1em;
+            color: #fff;
+        }
+        .btn:hover {
+            background-color: #777;
+        }
+        .btn-primary {
+            background-color: #e03848;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background-color: #d0192b;
+            color: #fff;
+        }
+        .btn-small {
+            font-size: .75em;
+            color: #fff;
+            background-color: rgba(0,0,0,.2);
+        }
+        .btn-small:hover {
+            color: #fff;
+            background-color: rgba(0,0,0,.4);
+        }
+    </style>
+    <script src="popup.js"></script>
+</head>
+<body>
+<div class="thyme">
+    <div class="header">
+        <h1>Thyme</h1>
+        <a href="/" class="btn btn-small" target="_blank">My Timesheet</a>
+    </div>
+    <div class="main-container">
+        <label>Project/Task</label>
+        <select class="form-input" id="users"></select>
+            <!-- <option value="1">Booking System (Indier)</option>
+            <option value="2" selected>Domino Website (Domino)</option> -->
+        <select class="form-input">
+            <option value="1">Blog</option>
+            <option value="2" selected>Flashcards</option>
+            <option value="3">Subtitles</option>
+        </select>
+
+        <div class="notes-container">
+            <textarea class="form-input" placeholder="Notes (optional)"></textarea>
+            <input class="form-input" type="text" placeholder="0:00">
+        </div>
+
+        <div class="button-container">
+            <button class="btn btn-primary">Start Timer</button>
+        </div>
+
+        <div id="JSON">JSON HERE</div>
+    </div>
+</div>
+</body>
+</html>

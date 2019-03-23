@@ -7,6 +7,7 @@ window.addEventListener("DOMContentLoaded", () => {
         const response = JSON.parse(res);
 
         if (response.timer_running) {
+            const date = new Date(response.data.start * 1000);
             document.getElementById("running").innerHTML = `
             <div style="display: flex; margin-bottom: 1em;">
                 <div style="flex: 1;">
@@ -16,9 +17,9 @@ window.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <div style="margin-top: auto;">
                     <div style="color: #777; font-size: 2em; text-align: right;">0:00</div>
-                    <div style="color: #aaa; font-size: 1em;">Started at ${new Date(
-                        response.data.start * 1000
-                    )}</div>
+                    <div style="color: #aaa; font-size: 1em;">Started at ${date.getHours()}:${
+                date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+            }</div>
                 </div>
             </div>
             <div class="button-container">

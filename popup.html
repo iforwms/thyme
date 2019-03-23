@@ -104,7 +104,6 @@
         }
         .main-container {
             padding: 1em;
-            height: 300px;
         }
         .loading-container {
             justify-content: center;
@@ -154,6 +153,9 @@
         .date-input-container div {
             flex: 1;
         }
+        .hidden {
+            display: none;
+        }
     </style>
     <script src="popup.js"></script>
 </head>
@@ -170,18 +172,23 @@
         </select>
         <select class="form-input" id="tasks"></select>
 
+        <div style="margin-top: 1em;" class="hidden" id="new-task-container">
+            <label>New Task</label>
+            <input class="form-input" type="text" id="new-task">
+        </div>
+
         <div class="notes-container">
-            <textarea class="form-input" placeholder="Notes (optional)"></textarea>
+            <textarea id="notes" class="form-input" placeholder="Notes (optional)"></textarea>
         </div>
 
         <div class="date-input-container">
             <div>
                 <label>Start Time</label>
-                <input id="start" class="form-input" type="text" placeholder="00:00">
+                <input id="start" class="form-input" type="text" value="12:00" placeholder="00:00">
             </div>
             <div>
                 <label>End Time</label>
-                <input id="end" class="form-input" type="text" placeholder="00:00">
+                <input id="end" class="form-input" type="text"value="12:05"  placeholder="00:00">
             </div>
         </div>
 

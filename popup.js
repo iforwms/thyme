@@ -1,5 +1,9 @@
-window.addEventListener("DOMContentLoaded", function() {
-    chrome.runtime.sendMessage({ action: "FETCH_STATE" }, function(res) {
+window.addEventListener("DOMContentLoaded", () => {
+    chrome.runtime.sendMessage({ action: "FETCH_STATE" }, res => {
+        if (!res) {
+            return alert("Failed to fetch data.");
+        }
+
         const response = JSON.parse(res);
 
         if (response.timer_running) {
@@ -33,18 +37,34 @@ window.addEventListener("DOMContentLoaded", function() {
         let start = document.getElementById("start");
         let end = document.getElementById("end");
 
-        response.data.map(project => {
-            projectsList.add(new Option(project.project_name, project.id));
+        Object.keys(response.data.clients).map(client => {
+            const optGroup = document.createElement("optgroup");
+            optGroup.label = client;
+            response.data.clients[client].map(project => {
+                optGroup.innerHTML += `<option value=${project.id}>${
+                    project.project_name
+                }</option>`;
+            });
+            projectsList.appendChild(optGroup);
         });
 
         projectsList.addEventListener("change", e => {
-            const tasks = response.data.filter(
+            const tasks = response.data.tasks.filter(
                 project => parseInt(project.id, 10) === parseInt(e.target.value, 10)
-            )[0].tasks;
+            );
             tasksList.innerText = null;
             tasks.map(task => {
                 tasksList.add(new Option(task.task_name, task.id));
             });
+            tasksList.add(new Option("New Task", "NEW_TASK"));
+        });
+
+        const newTaskContainer = document.getElementById("new-task-container");
+
+        tasksList.addEventListener("change", e => {
+            if (e.target.value === "NEW_TASK") {
+                newTaskContainer.classList.toggle("hidden");
+            }
         });
 
         document.getElementById("thyme").classList.remove("loading");
@@ -58,9 +78,23 @@ window.addEventListener("DOMContentLoaded", function() {
         }
 
         chrome.runtime.sendMessage(
-            { action: "START_TIMER", task_id: task.value, start: start.value, end: end.value },
-            function(res) {
-                alert(JSON.stringify(res));
+            {
+                action: "START_TIMER",
+                payload: {
+                    task_id: task.value,
+                    start: start.value,
+                    end: end.value,
+                    notes: document.getElementById("notes").value,
+                    project_id: document.getElementById("projects").value,
+                    new_task: document.getElementById("new-task").value
+                }
+            },
+            res => {
+                if (res) {
+                    window.close();
+                } else {
+                    alert("Failed to start timer.");
+                }
             }
         );
     });

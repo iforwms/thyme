@@ -1,26 +1,33 @@
-chrome.runtime.onInstalled.addListener(function() {
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+        const xhr = new XMLHttpRequest();
         if (request.action === "FETCH_STATE") {
-            var xhr = new XMLHttpRequest();
             xhr.open("GET", "http://thyme.test/api/extension", true);
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState == 4) {
-                    sendResponse(xhr.responseText);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        sendResponse(xhr.responseText);
+                    } else {
+                        sendResponse(null);
+                    }
                 }
             };
             xhr.send();
         }
 
         if (request.action === "START_TIMER") {
-            sendResponse(request);
-            // var xhr = new XMLHttpRequest();
-            // xhr.open("GET", "http://thyme.test/api/extension", true);
-            // xhr.onreadystatechange = function() {
-            //     if (xhr.readyState == 4) {
-            //         sendResponse(xhr.responseText);
-            //     }
-            // };
-            // xhr.send();
+            xhr.open("POST", "http://thyme.test/api/stints", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        sendResponse(true);
+                    } else {
+                        sendResponse(false);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(request.payload));
         }
 
         return true;

@@ -2,7 +2,7 @@
     "name": "Thyme",
     "version": "0.0.1",
     "description": "Time-tracking software for Cors Tech.",
-    "permissions": ["storage", "tabs", "<all_urls>"],
+    "permissions": ["storage", "http://thyme.test/*"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false

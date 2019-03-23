@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", function() {
     chrome.runtime.sendMessage({ action: "FETCH_STATE" }, function(res) {
         const response = JSON.parse(res);
 
-        if (!response.timer_running) {
+        if (response.timer_running) {
             document.getElementById("running").innerHTML = `
             <div style="display: flex; margin-bottom: 1em;">
                 <div style="flex: 1;">
@@ -30,6 +30,8 @@ window.addEventListener("DOMContentLoaded", function() {
 
         let projectsList = document.getElementById("projects");
         let tasksList = document.getElementById("tasks");
+        let start = document.getElementById("start");
+        let end = document.getElementById("end");
 
         response.data.map(project => {
             projectsList.add(new Option(project.project_name, project.id));
@@ -46,9 +48,20 @@ window.addEventListener("DOMContentLoaded", function() {
         });
 
         document.getElementById("thyme").classList.remove("loading");
+    });
 
-        document.getElementById("submit").addEventListener("click", () => {
-            alert("clicked!");
-        });
+    document.getElementById("submit").addEventListener("click", () => {
+        const tasksList = document.getElementById("tasks");
+        const task = tasksList.options[tasksList.selectedIndex];
+        if (!task) {
+            return alert("Select a task!");
+        }
+
+        chrome.runtime.sendMessage(
+            { action: "START_TIMER", task_id: task.value, start: start.value, end: end.value },
+            function(res) {
+                alert(JSON.stringify(res));
+            }
+        );
     });
 });

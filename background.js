@@ -10,6 +10,19 @@ chrome.runtime.onInstalled.addListener(function() {
             };
             xhr.send();
         }
+
+        if (request.action === "START_TIMER") {
+            sendResponse(request);
+            // var xhr = new XMLHttpRequest();
+            // xhr.open("GET", "http://thyme.test/api/extension", true);
+            // xhr.onreadystatechange = function() {
+            //     if (xhr.readyState == 4) {
+            //         sendResponse(xhr.responseText);
+            //     }
+            // };
+            // xhr.send();
+        }
+
         return true;
     });
 });

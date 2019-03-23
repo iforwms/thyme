@@ -6,19 +6,23 @@ window.addEventListener("DOMContentLoaded", function() {
             document.getElementById("running").innerHTML = `
             <div style="display: flex; margin-bottom: 1em;">
                 <div style="flex: 1;">
-                    <h1>Project Name</h1>
-                    <h2>(Client Name)</h2>
-                    <h2>Task Name</h2>
+                    <h2 style="margin-bottom: .5em;">Project Name</h2>
+                    <h3 style="margin-bottom: .5em;">(Client Name)</h3>
+                    <h3 style="color: #aaa;">Task Name</h3>
                 </div>
                 <div style="margin-top: auto;">
-                    <div>0:00</div>
-                    <div>Started at 12:34</div>
+                    <div style="color: #777; font-size: 2em; text-align: right;">0:00</div>
+                    <div style="color: #aaa; font-size: 1em;">Started at 12:34</div>
                 </div>
             </div>
             <div class="button-container">
                 <button id="cancel" class="btn btn-primary">Stop Timer</button>
             </div>
             `;
+
+            document
+                .getElementById("cancel")
+                .addEventListener("click", () => alert("timer stopped!"));
             document.getElementById("thyme").classList.remove("loading");
             document.getElementById("thyme").classList.add("running");
             return;

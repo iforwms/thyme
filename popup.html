@@ -27,28 +27,29 @@
         }
         .button-container {
             display: flex;
+            width: 100%;
             align-items: center;
             justify-content: space-between;
         }
-        .notes-container input,
-        .notes-container textarea {
-            height: 50px;
-            margin-bottom: 0;
+        button {
+            width: 100%;
         }
         .notes-container {
-            margin-bottom: 1em;
+            margin-bottom: .5em;
             display: flex;
         }
         textarea {
-            margin-right: 1em;
+            height: 50px;
+            margin-bottom: 0;
         }
-        .notes-container input {
-            width: 80px;
-            text-align: right;
-            font-size: 2em;
-            padding: .25em;
+        select, input {
+            border-style: solid;
+            border-width: 1px;
         }
-        h1 {
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+        }
+        h1, h2, h3 {
             font-weight: 100;
             margin-top: 0;
             margin-bottom: 0;
@@ -63,16 +64,47 @@
             margin-bottom: .5em;
             color: #777;
         }
+        select {
+            padding: 1em !important;
+        }
+        select{
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding: .75em;
+        }
         .form-input {
             padding: .75em;
             color: #777;
+            border-color: #777;
             display: block;
             width: 100%;
-            margin-bottom: 1em;
+            background-color: #fff;
+            margin-bottom: .5em;
             border-radius: 3px;
+            font-size: 1em;
         }
-        .main-container {
+        .loading .main-container,
+        .running .main-container,
+        .running-container,
+        .loading-container {
+            display: none;
+        }
+        .loading .loading-container {
+            display: flex;
+        }
+        .running .running-container {
+            display: block;
+        }
+        .main-container,
+        .running-container,
+        .loading-container {
             padding: 1em;
+            height: 300px;
+        }
+        .loading-container {
+            justify-content: center;
+            align-items: center;
         }
         .btn {
             display: inline-block;
@@ -108,37 +140,57 @@
             color: #fff;
             background-color: rgba(0,0,0,.4);
         }
+        .date-input-container {
+            display: flex;
+            margin-bottom: 1em;
+        }
+        .date-input-container div:first-child {
+            margin-right: 1em;
+        }
+        .date-input-container div {
+            flex: 1;
+        }
     </style>
     <script src="popup.js"></script>
 </head>
 <body>
-<div class="thyme">
+<div class="thyme loading" id="thyme">
     <div class="header">
         <h1>Thyme</h1>
         <a href="/" class="btn btn-small" target="_blank">My Timesheet</a>
     </div>
     <div class="main-container">
         <label>Project/Task</label>
-        <select class="form-input" id="users"></select>
-            <!-- <option value="1">Booking System (Indier)</option>
-            <option value="2" selected>Domino Website (Domino)</option> -->
-        <select class="form-input">
-            <option value="1">Blog</option>
-            <option value="2" selected>Flashcards</option>
-            <option value="3">Subtitles</option>
+        <select class="form-input" id="projects">
+            <option value="" disabled>-- Select Project --</option>
         </select>
+        <select class="form-input" id="tasks"></select>
 
         <div class="notes-container">
             <textarea class="form-input" placeholder="Notes (optional)"></textarea>
-            <input class="form-input" type="text" placeholder="0:00">
+        </div>
+
+        <div class="date-input-container">
+            <div>
+                <label>Start Time</label>
+                <input class="form-input" type="text" placeholder="00:00">
+            </div>
+            <div>
+                <label>End Time</label>
+                <input class="form-input" type="text" placeholder="00:00">
+            </div>
         </div>
 
         <div class="button-container">
-            <button class="btn btn-primary">Start Timer</button>
+            <button id="submit" class="btn btn-primary">Start Timer</button>
         </div>
-
-        <div id="JSON">JSON HERE</div>
     </div>
+
+    <div class="loading-container">
+        Loading...
+    </div>
+
+    <div class="running-container" id="running"></div>
 </div>
 </body>
 </html>

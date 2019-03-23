@@ -1,15 +1,16 @@
-let page = document.getElementById("buttonDiv");
-const kButtonColors = ["#3aa757", "#e8453c", "#f9bb2d", "#4688f1"];
-function constructOptions(kButtonColors) {
-    for (let item of kButtonColors) {
-        let button = document.createElement("button");
-        button.style.backgroundColor = item;
-        button.addEventListener("click", function() {
-            chrome.storage.sync.set({ color: item }, function() {
-                console.log("color is " + item);
-            });
+window.addEventListener("DOMContentLoaded", () => {
+    let accessTokenBtn = document.getElementById("access-token-submit");
+    let accessToken = document.getElementById("access-token");
+
+    chrome.storage.sync.get("token", data => {
+        if (data && data.token) {
+            accessToken.innerText = data.token;
+        }
+    });
+
+    accessTokenBtn.addEventListener("click", () => {
+        chrome.storage.sync.set({ token: accessToken.value }, () => {
+            alert("Token saved!");
         });
-        page.appendChild(button);
-    }
-}
-constructOptions(kButtonColors);
+    });
+});

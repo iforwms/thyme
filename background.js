@@ -1,4 +1,10 @@
 chrome.runtime.onInstalled.addListener(() => {
+    chrome.storage.sync.get("token", data => {
+        if (!data || !data.token) {
+            return alert("Please go to the options page to set your personal access token.");
+        }
+    });
+
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const xhr = new XMLHttpRequest();
         if (request.action === "FETCH_STATE") {

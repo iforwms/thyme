@@ -43,7 +43,11 @@ chrome.runtime.onInstalled.addListener(() => {
         }
 
         if (request.action === "STOP_TIMER") {
-            xhr.open("PATCH", `http://thyme.test/api/stints/${request.payload.stint_id}`, true);
+            xhr.open(
+                "PATCH",
+                `http://thyme.test/api/stints/${request.payload.stint_id}/stop`,
+                true
+            );
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.setRequestHeader("X-PAT", token);
             xhr.onreadystatechange = () => {
@@ -55,7 +59,7 @@ chrome.runtime.onInstalled.addListener(() => {
                     }
                 }
             };
-            xhr.send(JSON.stringify(request.payload));
+            xhr.send();
         }
 
         return true;

@@ -58,7 +58,7 @@ window.addEventListener("DOMContentLoaded", () => {
                         if (res) {
                             window.close();
                         } else {
-                            alert("Failed to start timer.");
+                            alert("Failed to stop timer.");
                         }
                     }
                 );

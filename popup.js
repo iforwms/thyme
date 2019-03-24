@@ -1,3 +1,17 @@
+function getTime(date) {
+    return `${date.getHours()}:${
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+    }`;
+}
+
+function getDuration(date) {
+    const ms = new Date() - date;
+    const mins = Math.floor(ms / 60000);
+    const hrs = Math.floor(mins / 60);
+
+    return `${hrs < 10 ? "0" + hrs : hrs}:${mins < 10 ? "0" + mins : mins}`;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
     chrome.runtime.sendMessage({ action: "FETCH_STATE" }, ({ status, res }) => {
         if (status !== 200) {
@@ -16,10 +30,12 @@ window.addEventListener("DOMContentLoaded", () => {
                     <h3 style="color: #aaa;">${response.data.task_name}</h3>
                 </div>
                 <div style="margin-top: auto;">
-                    <div style="color: #777; font-size: 2em; text-align: right;">0:00</div>
-                    <div style="color: #aaa; font-size: 1em;">Started at ${date.getHours()}:${
-                date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-            }</div>
+                    <div style="color: #777; font-size: 2em; text-align: right;">
+                        ${getDuration(date)}
+                    </div>
+                    <div style="color: #aaa; font-size: 1em;">
+                        Started at ${getTime(date)}
+                    </div>
                 </div>
             </div>
             <div class="button-container">

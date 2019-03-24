@@ -17,9 +17,9 @@ chrome.runtime.onInstalled.addListener(() => {
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        sendResponse(xhr.responseText);
+                        sendResponse({ status: xhr.status, res: xhr.responseText });
                     } else {
-                        sendResponse(null);
+                        sendResponse({ status: xhr.status, res: xhr.responseText });
                     }
                 }
             };
@@ -28,6 +28,22 @@ chrome.runtime.onInstalled.addListener(() => {
 
         if (request.action === "START_TIMER") {
             xhr.open("POST", "http://thyme.test/api/stints", true);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.setRequestHeader("X-PAT", token);
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        sendResponse(true);
+                    } else {
+                        sendResponse(false);
+                    }
+                }
+            };
+            xhr.send(JSON.stringify(request.payload));
+        }
+
+        if (request.action === "STOP_TIMER") {
+            xhr.open("PATCH", `http://thyme.test/api/stints/${request.payload.stint_id}`, true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.setRequestHeader("X-PAT", token);
             xhr.onreadystatechange = () => {

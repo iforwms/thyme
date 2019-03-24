@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
-    chrome.runtime.sendMessage({ action: "FETCH_STATE" }, res => {
-        if (!res) {
-            return alert("Failed to fetch data.");
+    chrome.runtime.sendMessage({ action: "FETCH_STATE" }, ({ status, res }) => {
+        if (status !== 200) {
+            return alert("Failed to fetch data. " + JSON.stringify(res));
         }
 
         const response = JSON.parse(res);
@@ -23,13 +23,30 @@ window.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
             <div class="button-container">
-                <button id="cancel" class="btn btn-primary">Stop Timer</button>
+                <button id="cancel" class="btn btn-primary" data-id="${
+                    response.data.stint_id
+                }">Stop Timer</button>
             </div>
             `;
 
-            document
-                .getElementById("cancel")
-                .addEventListener("click", () => alert("timer stopped!"));
+            document.getElementById("cancel").addEventListener("click", () => {
+                const that = this;
+                chrome.runtime.sendMessage(
+                    {
+                        action: "STOP_TIMER",
+                        payload: {
+                            stint_id: document.getElementById("cancel").dataset.id
+                        }
+                    },
+                    res => {
+                        if (res) {
+                            window.close();
+                        } else {
+                            alert("Failed to start timer.");
+                        }
+                    }
+                );
+            });
             document.getElementById("thyme").classList.remove("loading");
             document.getElementById("thyme").classList.add("running");
             return;

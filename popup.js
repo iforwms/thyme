@@ -86,7 +86,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         projectsList.addEventListener("change", e => {
             const tasks = response.data.tasks.filter(
-                project => parseInt(project.id, 10) === parseInt(e.target.value, 10)
+                task => parseInt(task.project_id, 10) === parseInt(e.target.value, 10)
             );
             tasksList.innerText = null;
             tasks.map(task => {

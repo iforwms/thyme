@@ -12,7 +12,7 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const xhr = new XMLHttpRequest();
         if (request.action === "FETCH_STATE") {
-            xhr.open("GET", "http://thyme.test/api/extension", true);
+            xhr.open("GET", "https://thyme-api.designedbywaldo.com/api/extension", true);
             xhr.setRequestHeader("X-PAT", token);
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === 4) {
@@ -27,7 +27,7 @@ chrome.runtime.onInstalled.addListener(() => {
         }
 
         if (request.action === "START_TIMER") {
-            xhr.open("POST", "http://thyme.test/api/stints", true);
+            xhr.open("POST", "https://thyme-api.designedbywaldo.com/api/stints", true);
             xhr.setRequestHeader("Content-type", "application/json");
             xhr.setRequestHeader("X-PAT", token);
             xhr.onreadystatechange = () => {
@@ -45,7 +45,7 @@ chrome.runtime.onInstalled.addListener(() => {
         if (request.action === "STOP_TIMER") {
             xhr.open(
                 "PATCH",
-                `http://thyme.test/api/stints/${request.payload.stint_id}/stop`,
+                `https://thyme-api.designedbywaldo.com/api/stints/${request.payload.stint_id}/stop`,
                 true
             );
             xhr.setRequestHeader("Content-type", "application/json");

@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     chrome.storage.sync.get("token", data => {
         if (data && data.token) {
-            accessToken.innerText = data.token;
+            accessToken.value = data.token;
         }
     });
 
